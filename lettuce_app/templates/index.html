@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌱 Lettuce Growth Predictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <svg width="28" height="28" viewBox="0 0 60 60" fill="none">
+        <ellipse cx="30" cy="18" rx="16" ry="11" fill="#4ADE80" opacity=".9"/>
+        <ellipse cx="18" cy="30" rx="13" ry="9" fill="#22C55E" opacity=".85" transform="rotate(-20 18 30)"/>
+        <ellipse cx="42" cy="30" rx="13" ry="9" fill="#86EFAC" opacity=".85" transform="rotate(20 42 30)"/>
+        <rect x="28" y="28" width="4" height="22" rx="2" fill="#15803D"/>
+        <path d="M30 48 Q23 54 16 56" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M30 50 Q37 54 44 56" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div>
+      <div class="brand-name">LettuceAI</div>
+      <div class="brand-sub">Growth Predictor</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Navigation</div>
+    <a href="#" class="nav-item active">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <a href="#" class="nav-item" onclick="openModelInfo(event)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      Modèle ML
+    </a>
+    <a href="#" class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Historique
+    </a>
+  </nav>
+
+  <div class="sidebar-model-badge">
+    <div class="mb-label">Modèle actif</div>
+    <div class="mb-name">Random Forest</div>
+    <div class="mb-metrics">
+      <span>R² = 0.95</span>
+      <span>MAE = 1.47</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1 class="page-title">Prédiction de Croissance</h1>
+      <p class="page-sub">Entrez les paramètres environnementaux pour estimer la durée de croissance de la laitue.</p>
+    </div>
+    <div class="topbar-right">
+      <div class="status-dot"></div>
+      <span class="status-text">Modèle opérationnel</span>
+    </div>
+  </header>
+
+  <!-- Content grid -->
+  <div class="content-grid">
+
+    <!-- LEFT : Form panel -->
+    <section class="panel form-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Paramètres Environnementaux
+        </div>
+        <button class="btn-reset" onclick="resetForm()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+          Réinitialiser
+        </button>
+      </div>
+
+      <div class="features-grid">
+        {% for feat in features %}
+        <div class="feature-card" id="card-{{ feat.id }}">
+          <div class="feature-top">
+            <div class="feature-icon">{{ feat.icon }}</div>
+            <div class="feature-info">
+              <label class="feature-label" for="{{ feat.id }}">{{ feat.label }}</label>
+              <span class="feature-unit">{{ feat.unit }}</span>
+            </div>
+            <div class="feature-value-display" id="val-{{ feat.id }}">{{ feat.default }}</div>
+          </div>
+          <input
+            type="range"
+            class="slider"
+            id="{{ feat.id }}"
+            name="{{ feat.id }}"
+            min="{{ feat.min }}"
+            max="{{ feat.max }}"
+            step="{{ feat.step }}"
+            value="{{ feat.default }}"
+            oninput="updateValue('{{ feat.id }}', this.value)"
+          >
+          <div class="slider-bounds">
+            <span>{{ feat.min }}</span>
+            <span class="opt-label">⚡ Optimal: {{ feat.optimal[0] }}–{{ feat.optimal[1] }}</span>
+            <span>{{ feat.max }}</span>
+          </div>
+          <div class="feature-tip" id="tip-{{ feat.id }}">{{ feat.tip }}</div>
+          <div class="feature-score-bar">
+            <div class="fsb-fill" id="fscore-{{ feat.id }}" style="width:50%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <button class="btn-predict" id="btn-predict" onclick="runPrediction()">
+        <span class="btn-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </span>
+        <span class="btn-text">Predict Growth</span>
+      </button>
+    </section>
+
+    <!-- RIGHT : Results panel -->
+    <section class="panel result-panel" id="result-panel">
+
+      <!-- Placeholder state -->
+      <div class="result-placeholder" id="result-placeholder">
+        <div class="placeholder-icon">🌿</div>
+        <p>Ajustez les paramètres et cliquez sur <strong>Predict Growth</strong> pour obtenir une estimation.</p>
+      </div>
+
+      <!-- Result content (hidden until prediction) -->
+      <div class="result-content" id="result-content" style="display:none;">
+
+        <div class="result-quality-banner" id="result-quality-banner">
+          <span id="quality-label"></span>
+        </div>
+
+        <div class="result-main">
+          <div class="result-kpi">
+            <div class="kpi-value" id="kpi-days">—</div>
+            <div class="kpi-label">Jours de Croissance</div>
+            <div class="kpi-margin" id="kpi-margin"></div>
+          </div>
+          <div class="result-divider"></div>
+          <div class="result-secondary">
+            <div class="sec-stat">
+              <div class="sec-val" id="sec-mass">—</div>
+              <div class="sec-lbl">Masse Estimée (g)</div>
+            </div>
+            <div class="sec-stat">
+              <div class="sec-val" id="sec-confidence">—</div>
+              <div class="sec-lbl">Confiance (%)</div>
+            </div>
+            <div class="sec-stat">
+              <div class="sec-val" id="sec-composite">—</div>
+              <div class="sec-lbl">Score Env. (%)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confidence bar -->
+        <div class="conf-section">
+          <div class="conf-header">
+            <span>Niveau de Confiance</span>
+            <span id="conf-pct">—%</span>
+          </div>
+          <div class="conf-track">
+            <div class="conf-fill" id="conf-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Radar chart -->
+        <div class="radar-section">
+          <div class="radar-title">Score par Paramètre</div>
+          <canvas id="radarChart" width="300" height="220"></canvas>
+        </div>
+
+        <!-- Advice -->
+        <div class="advice-box" id="advice-box">
+          <div class="advice-icon">💡</div>
+          <p id="advice-text"></p>
+        </div>
+
+        <!-- Limiting factors -->
+        <div class="limiting-section" id="limiting-section" style="display:none;">
+          <div class="limiting-title">⚠️ Facteurs Limitants</div>
+          <div class="limiting-tags" id="limiting-tags"></div>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /content-grid -->
+</main>
+
+<!-- ── MODEL INFO MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>🧠 Informations du Modèle</h3>
+      <button onclick="closeModal()" class="modal-close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <p>Chargement…</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>
