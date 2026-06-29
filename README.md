@@ -27,7 +27,9 @@ Installation
 Structure du projet
 Limites et perspectives
 Conclusion
-1. Présentation du projet
+
+
+## 1. Présentation du projet
 
 L’agriculture moderne fait face à plusieurs défis : augmentation de la demande alimentaire, optimisation des ressources et nécessité de produire de manière plus durable.
 
@@ -46,7 +48,9 @@ informations liées à la zone de culture.
 
 Le modèle final prédit la masse fraîche de la plante (en grammes), qui représente un indicateur important du développement végétal.
 
-2. Objectif général
+
+
+## 2. Objectif général
 
 L’objectif de ce projet est de construire un modèle intelligent capable de :
 
@@ -60,7 +64,9 @@ Plus précisément, le projet vise à répondre à la question suivante :
 
 Comment prédire avec précision la croissance des plantes de laitue à partir de données environnementales en comparant les modèles ML classiques et Deep Learning ?
 
-3. Dataset utilisé
+
+
+## 3. Dataset utilisé
 
 Le dataset contient des informations expérimentales relatives à la croissance de plantes de laitue.
 
@@ -84,7 +90,10 @@ Zone de culture
 
 La variable cible correspond au poids final de la plante après croissance.
 
-4. Prétraitement des données
+
+
+
+## 4. Prétraitement des données
 
 Avant l’entraînement des modèles, plusieurs étapes de préparation ont été appliquées afin d’améliorer la qualité des données.
 
@@ -118,7 +127,11 @@ Le dataset est divisé en :
 
 80% données d’entraînement ;
 20% données de test.
-5. Modèles utilisés
+
+
+
+
+## 5. Modèles utilisés
 
 Plusieurs modèles ont été développés afin de comparer différentes approches.
 
@@ -154,7 +167,10 @@ Le modèle utilise :
 plusieurs couches Dense ;
 activation ReLU ;
 optimiseur Adam.
-6. Architecture du modèle ANN
+
+
+
+## 6. Architecture du modèle ANN
 
 L’architecture finale du réseau est composée de :
 Input Layer
@@ -188,7 +204,10 @@ Epochs : 200
 Batch size : 32
 Dropout : 0.2
 Early Stopping : patience = 20
-7. Évaluation des modèles
+
+
+
+## 7. Évaluation des modèles
 
 Les performances sont mesurées avec trois métriques :
 
@@ -208,7 +227,9 @@ Mesure la capacité du modèle à expliquer la variation des données.
 
 Une valeur proche de 1 indique un meilleur modèle.
 
-8. Résultats obtenus
+
+
+## 8. Résultats obtenus
 
 Comparaison des performances :
 
@@ -226,7 +247,9 @@ R² = 0.97
 
 Cela montre que le Deep Learning est capable de mieux modéliser les relations complexes entre les conditions environnementales et la croissance des plantes.
 
-9. Application Web
+
+
+## 9. Application Web
 
 Une interface web a été développée afin de faciliter l’utilisation du modèle.
 
@@ -239,7 +262,9 @@ de visualiser les performances du modèle.
 
 L’application permet de transformer le modèle d’intelligence artificielle en un outil facilement utilisable.
 
-10. Technologies utilisées
+
+
+## 10. Technologies utilisées
 Machine Learning
 Python
 Scikit-learn
@@ -254,7 +279,9 @@ Seaborn
 Développement Web
 React.js
 FastAPI / Flask (selon ton application)
-11. Structure du projet
+
+
+## 11. Structure du projet
 lettuce-growth-platform/
 
 │
@@ -276,7 +303,10 @@ lettuce-growth-platform/
 ├── requirements.txt
 │
 └── README.md
-12. Limites du projet
+
+
+
+## 12. Limites du projet
 
 Malgré les bons résultats obtenus, certaines limites existent :
 
@@ -284,7 +314,9 @@ taille limitée du dataset ;
 données provenant d’un environnement expérimental spécifique ;
 nécessité de tester le modèle sur différentes variétés de plantes ;
 absence d’intégration directe avec des capteurs IoT en temps réel.
-13. Perspectives
+
+
+## 13. Perspectives
 
 Les améliorations possibles sont :
 
@@ -293,7 +325,9 @@ utiliser des modèles temporels comme LSTM ;
 développer une plateforme Cloud ;
 étendre le système à d’autres cultures ;
 améliorer la généralisation avec des datasets plus larges.
-14. Conclusion
+
+
+## 14. Conclusion
 
 Ce projet démontre l’efficacité des approches Machine Learning et Deep Learning pour la prédiction de la croissance des plantes.
 
@@ -308,3 +342,9 @@ Le dataset utilisé pour l'entraînement et l'évaluation des modèles est dispo
 🔗 Dataset :(https://www.kaggle.com/datasets/jurijsruko/lettuce)
 
 Ce dataset contient les données nécessaires pour l'analyse et la prédiction de la croissance de la laitue.
+
+## 🎥 Démonstration vidéo
+
+Une démonstration de l'application est disponible ici :
+
+https://youtu.be/dMf_Go8tHYw?si=6hyxu2-uAEG-qWtc
